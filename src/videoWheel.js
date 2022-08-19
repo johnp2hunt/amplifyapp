@@ -1,37 +1,30 @@
 import React from 'react';
-import ResponsiveImage from "./ResponsiveImageOrig-2";
-import AutoHeightImage from "./AutoHeightImage"
-import ReactDOM from 'react-dom/client';
 import Button from '@mui/material/Button';
+import ReactPlayer from 'react-player';
+import SelectVariants from "./selectVidVariants";
+
 
 
 // images data
-import birdImages from './birdImages';
+import birdMovies from './birdMovies';
 var i = 0;
-
-function next() {
-//  alert('You clicked me!');
-  i = i + 1;
-    return(
-      <p>Image[{3}]: <img src={birdImages[3].img} width="600"/></p>
-    )
-}
+var backDisabled = true;
+var nextDisabled = false;
+var videoUrl = ""
 
 class VideoWheel extends React.Component{
   constructor(props){
     super(props)
-
     // Set initial state
     this.state = {imageNum : i}
-
-    // Binding this keyword
-//    this.handleNextClick = this.handleClick.bind(this)
   }
   handleNextClick = () => {
     // Changing state
-    if (i < (birdImages.length - 1)){
+    if (i < (birdMovies.length - 1)){
       i = i + 1
       this.setState({imageNum : i});
+      this.changeBackDisableState();
+      this.changeNextDisableState();
     }
   }
   handleBackClick = () => {
@@ -39,31 +32,72 @@ class VideoWheel extends React.Component{
     if (i > 0) {
       i = i - 1
       this.setState({imageNum : i});
+      this.changeBackDisableState();
+      this.changeNextDisableState();
     }
   }
-  //          <p>&nbsp;&nbsp;&nbsp;<img src={birdImages[i].img} width="960"/></p>
+  changeBackDisableState = () => {
+    if (i === 0) {
+      backDisabled = true;
+    } else {
+      backDisabled = false;
+    }
+  };
+
+  changeNextDisableState = () => {
+    console.log('birdmovieslength: '+ birdMovies.length);
+    console.log('i: ' + i)
+    if (i === (birdMovies.length - 1)){
+      console.log('disable next now')
+      nextDisabled = true;
+    } else {
+      nextDisabled = false;
+    }
+  };
+
+  childToParent = (childdata) => {
+    i = childdata;
+    this.changeNextDisableState();
+    this.changeBackDisableState();
+    this.setState({imageNum : childdata});
+  };
+
+  videoUrl = birdMovies[i].uri + "#t=0.1";
+
 
     render(){
         return(
           <>
-          <h1 style={{marginLeft: 16}}>birdImages.length: {birdImages.length}; Image[{this.state.imageNum}]</h1>
-          <p style={{marginLeft:16}}>Date/Time: {birdImages[i].dt_m}</p>
           <Button
             variant="contained"
-            sx={{margin: 1, marginLeft: 2}}
+            className="next-button"
+            sx={{margin: 0, marginLeft: 1, marginTop: -1}}
+            disabled={nextDisabled}
             onClick={this.handleNextClick}>
             Next
           </Button>
           <Button
             variant="contained"
-            sx={{margin: 1, marginLeft: 2}}
+            className="back-button"
+            sx={{margin: 0, marginLeft: 2, marginTop: -1}}
+            disabled={backDisabled}
             onClick={this.handleBackClick}>
             Back
           </Button>
-          <video>
-            <source src="./videos/testvid3.m4v" />
-            Sorry, your browser doesn't support videos.
-          </video>
+          <SelectVariants
+            sx={{margin: 1}}
+            childToParent={this.childToParent} />
+          <div className='player-wrapper'>
+          <p className="video-info">Video {i+1} of {birdMovies.length}; {birdMovies[i].dt_m.slice(5,10)} at {birdMovies[i].dt_m.slice(11,16)}</p>
+            <ReactPlayer
+              className='react-player fixed-bottom bird-video'
+              width='100px%'
+              height='100%'
+              controls = {true}
+              url={birdMovies[i].uri}
+              childToParent={this.childToParent}
+            />
+           </div>
           </>
         )
     }

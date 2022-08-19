@@ -56,12 +56,12 @@ class ImageWheel extends React.Component{
     this.changeNextDisableState();
     this.changeBackDisableState();
     this.setState({imageNum : childdata});
+    console.log('childdata: ' + childdata);
   }
 
   render(){
     return(
       <>
-      <h1 className="title" style={{marginLeft: 16}}>Hunt-Cashman Bluebirds</h1>
       <Button
         variant="contained"
         className="back-button"
@@ -82,6 +82,7 @@ class ImageWheel extends React.Component{
         sx={{margin: 1}}
         childToParent={this.childToParent} />
       <ResponsiveImage
+        className="responsive-image"
         imgNum={i}
         uri={birdImages[i].img}
         src={birdImages[i].img}
