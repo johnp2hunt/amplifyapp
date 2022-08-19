@@ -1,5 +1,5 @@
 const birdMovies = [
-  {img: 'movie0', uri: 'Screen Recording 2022-07-07 at 8.30.54 AM.mp4', dt_m: "2022-07-07 08:31:18.993688"},
+  {img: 'movie0', uri: 'https://birdvideos.s3.amazonaws.com/Screen+Recording+2022-07-07+at+8.30.54+AM.mp4', dt_m: "2022-07-07 08:31:18.993688"},
   {img: 'movie1', uri: 'Screen Recording 2022-07-10 at 8.57.39 AM.mp4', dt_m: "2022-07-10 08:57:48.664909"},
   {img: 'movie2', uri: 'Screen Recording 2022-07-10 at 11.12.37 AM.mp4', dt_m: "2022-07-10 11:12:51.545195"},
   {img: 'movie3', uri: 'Screen Recording 2022-07-10 at 11.14.17 AM.mp4', dt_m: "2022-07-10 11:14:29.166671"},
